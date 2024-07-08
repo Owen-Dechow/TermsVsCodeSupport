@@ -1,0 +1,25 @@
+{
+  "name": "terms",
+  "displayName": "terms",
+  "description": "Language support for the terms programming language",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "termslang",
+      "aliases": ["termslang", "termslang"],
+      "extensions": ["tms"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "termslang",
+      "scopeName": "source.termslang",
+      "path": "./syntaxes/termslang.tmLanguage.json"
+    }]
+  }
+}

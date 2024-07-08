@@ -1,0 +1,119 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "termslang",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#constant"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#structs"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.termslang",
+					"match": "\\b(return|println|print|let|func|updt|cll|struct)\\b"
+				},
+				{
+					"name": "keyword.control.termslang",
+					"match": "\\b(if|else|loop|continue|break)\\b"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.termslang",
+					"begin": "\"",
+					"end": "\""
+				},
+				{
+					"name": "string.quoted.single.termslang",
+					"begin": "'",
+					"end": "'"
+				},
+				{
+					"name": "string.quoted.other.termslang",
+					"begin": "`",
+					"end": "`"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"match": "(#).*$\\n?",
+					"name": "comment.line.termslang"
+				}
+			]
+		},
+		"constant": {
+			"match": "\\b(?:true|false|null)\\b",
+			"name": "constant.language.termslang"
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.float.termslang",
+					"match": "(?x)(?<! \\w) (?: (?: [0-9](?: _*[0-9] )* )_* \\. (?: _*[0-9])(?: _*[0-9] )* | (?: [0-9](?: _*[0-9] )* )_* \\. )_*"
+				},
+				{
+					"name": "constant.numeric.termslang",
+					"match": "(?x)(?<! \\w)(?: [0-9](?: _*[0-9] )* )_*"
+				}
+			]
+		},
+		"types": {
+			"match": "(?<![A-Za-z])(int|str|bool|float)\\b",
+			"name": "entity.name.type"
+		},
+		"operators": {
+			"patterns": [
+				{
+					"match": "(?: <|>|:|\\.|\\+|\\-|=)",
+					"name": "keyword.operator.termslang"
+				},
+				{
+					"match": "(?: \\$)",
+					"name": "keyword.operator.new.termslang"
+				}
+			]
+		},
+		"structs": {
+			"name": "meta.class.termslang",
+			"begin": "(?x)\n  \\s*(struct)\\s+\n    (?=\n      [[:alpha:]_]\\w* \\s* (:|\\()\n    )\n",
+			"end": "{",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.class.termslang"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.class.begin.termslang"
+				}
+			}
+		}
+	},
+	"scopeName": "source.termslang"
+}
