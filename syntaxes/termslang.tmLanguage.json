@@ -25,6 +25,12 @@
 		},
 		{
 			"include": "#structs"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#vars"
 		}
 	],
 	"repository": {
@@ -75,22 +81,22 @@
 			"patterns": [
 				{
 					"name": "constant.numeric.float.termslang",
-					"match": "(?x)(?<! \\w) (?: (?: [0-9](?: _*[0-9] )* )_* \\. (?: _*[0-9])(?: _*[0-9] )* | (?: [0-9](?: _*[0-9] )* )_* \\. )_*"
+					"match": "\\b((?<!@)\\d[\\d_]*\\.[\\d_]*)\\b"
 				},
 				{
 					"name": "constant.numeric.termslang",
-					"match": "(?x)(?<! \\w)(?: [0-9](?: _*[0-9] )* )_*"
+					"match": "\\b((?<![@\\.])\\d[\\d_]*)\\b"
 				}
 			]
 		},
 		"types": {
-			"match": "(?<![A-Za-z])(int|str|bool|float)\\b",
-			"name": "entity.name.type"
+			"match": "(?<![@_[A-Za-z]])(int|str|bool|float)\\b",
+			"name": "entity.name.type.termslang"
 		},
 		"operators": {
 			"patterns": [
 				{
-					"match": "(?: <|>|:|\\.|\\+|\\-|=)",
+					"match": "(?: <|>|\\+|\\-|=|%|,|\\*|\\.|~)",
 					"name": "keyword.operator.termslang"
 				},
 				{
@@ -100,19 +106,43 @@
 			]
 		},
 		"structs": {
-			"name": "meta.class.termslang",
-			"begin": "(?x)\n  \\s*(struct)\\s+\n    (?=\n      [[:alpha:]_]\\w* \\s* (:|\\()\n    )\n",
-			"end": "{",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.type.class.termslang"
+			"patterns": [
+				{
+					"begin": "(?<=struct)[\\s]{1,}",
+					"end": "(?=[^\\w\\d@_])",
+					"name": "entity.name.class.termslang"
+				},
+				{
+					"match": "(?<=let[\\s]{1,})[\\w\\@][\\w\\d@]*",
+					"name": "entity.name.class.termslang"
+				},
+				{
+					"match": "(?<=\\$\\(.*\\)\\s*)[\\w\\@][\\w\\d@]*",
+					"name": "entity.name.class.termslang"
 				}
-			},
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.section.class.begin.termslang"
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"begin": "(?<=func\\s{1,}[\\w\\d@_]{1,}(\\s*\\[\\s*\\])*)\\s{1,}",
+					"end": "(?=[^\\w\\d@_])",
+					"name": "entity.name.function.termslang",
+					"beginCaptures": {
+						"0": {
+							"name": "storage.type.function.termslang"
+						}
+					}
 				}
-			}
+			]
+		},
+		"vars": {
+			"patterns": [
+				{
+					"match": "(?<![\\w\\d@])@this\\b",
+					"name": "variable.language"
+				}
+			]
 		}
 	},
 	"scopeName": "source.termslang"
