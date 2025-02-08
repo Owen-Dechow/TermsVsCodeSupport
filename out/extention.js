@@ -12,7 +12,7 @@ function activate(context) {
         return;
     }
 
-    const provider = vscode.languages.registerCompletionItemProvider('termslang', {
+    const autoCompleteProvider = vscode.languages.registerCompletionItemProvider('termslang', {
         provideCompletionItems(document, position) {
             return new Promise((resolve, reject) => {
                 const filePath = document.uri.fsPath;
@@ -61,6 +61,9 @@ function activate(context) {
     const diagnosticCollection = vscode.languages.createDiagnosticCollection('termslang');
 
     const saveListener = vscode.workspace.onDidSaveTextDocument((document) => {
+        if (document.languageId != "termslang")
+            return;
+
         const filePath = document.uri.fsPath;
 
         // Clear existing diagnostics for the file
@@ -93,6 +96,8 @@ function activate(context) {
 
                             const diagnostic = new vscode.Diagnostic(range, error.msg, vscode.DiagnosticSeverity.Error);
 
+
+                            const uri = vscode.Uri.file(error.loc.split(":")[0]);
                             if (!diagnosticMap.has(uri)) {
                                 diagnosticMap.set(uri, []);
                             }
@@ -154,7 +159,7 @@ function activate(context) {
         }
     });
 
-    context.subscriptions.push(provider, saveListener, diagnosticCollection, formatDocument);
+    context.subscriptions.push(autoCompleteProvider, saveListener, diagnosticCollection, formatDocument);
 }
 
 exports.activate = activate;
