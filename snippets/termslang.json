@@ -1,0 +1,62 @@
+{
+    "PrintLn Statement": {
+        "prefix": "println",
+        "body": [
+            "println ${1:expression} ~"
+        ],
+        "description": "Print a line"
+    },
+    "Print Statement": {
+        "prefix": "print",
+        "body": [
+            "print ${1:expression} ~"
+        ],
+        "description": "Print a value"
+    },
+    "Return Statement": {
+        "prefix": "return",
+        "body": [
+            "return ${1:expression} ~"
+        ],
+        "description": "Return a value"
+    },
+    "Let Statement": {
+        "prefix": "let",
+        "body": [
+            "let ${1:type} ${2:name} = ${3:expression} ~"
+        ],
+        "description": "Declare a variable"
+    },
+    "Update Statement": {
+        "prefix": "updt",
+        "body": [
+            "updt ${1:name} = ${2:expression} ~"
+        ],
+        "description": "Update a variable"
+    },
+    "Call Statement": {
+        "prefix": "cll",
+        "body": [
+            "cll  ${1:expression} ~"
+        ],
+        "description": "Evaluate expression without saving return"
+    },
+    "Function Declaration": {
+        "prefix": "func",
+        "body": [
+            "func ${1:name}: ${2:parameters} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Declare a function"
+    },
+    "Struct Declaration": {
+        "prefix": "struct",
+        "body": [
+            "struct ${1:name} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Declare a struct"
+    }
+}

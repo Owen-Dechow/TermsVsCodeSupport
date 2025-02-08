@@ -2,7 +2,7 @@
   "name": "terms",
   "displayName": "terms",
   "description": "Language support for the terms programming language",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "repository": "https://github.com/Owen-Dechow/TermsVsCodeSupport",
   "engines": {
     "vscode": "^1.80.0"
@@ -10,13 +10,14 @@
   "categories": [
     "Programming Languages"
   ],
+  "main": "./out/extention.js",
   "contributes": {
     "languages": [
       {
         "id": "termslang",
         "aliases": [
           "termslang",
-          "termslang"
+          "tms"
         ],
         "extensions": [
           "tms"
@@ -30,6 +31,22 @@
         "scopeName": "source.termslang",
         "path": "./syntaxes/termslang.tmLanguage.json"
       }
-    ]
+    ],
+    "snippets": [
+      {
+        "language": "termslang",
+        "path": "./snippets/termslang.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "termslang.lspPath": {
+          "type": "string",
+          "default": "termslang",
+          "description": "Path to the Termslang Language Server executable"
+        }
+      }
+    }
   }
 }

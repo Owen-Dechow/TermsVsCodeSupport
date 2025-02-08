@@ -111,14 +111,6 @@
 					"begin": "(?<=struct)[\\s]{1,}",
 					"end": "(?=[^\\w\\d@_])",
 					"name": "entity.name.class.termslang"
-				},
-				{
-					"match": "(?<=let[\\s]{1,})[\\w\\@][\\w\\d@]*",
-					"name": "entity.name.class.termslang"
-				},
-				{
-					"match": "(?<=\\$\\(.*\\)\\s*)[\\w\\@][\\w\\d@]*",
-					"name": "entity.name.class.termslang"
 				}
 			]
 		},
