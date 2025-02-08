@@ -42,10 +42,58 @@ function activate(context) {
                                 if (result.variables.hasOwnProperty(variableName)) {
                                     const variable = result.variables[variableName];
                                     const completionItem = new vscode.CompletionItem(variableName, vscode.CompletionItemKind.Variable);
-                                    completionItem.detail = `${variable.type} (${variable.line}:${variable.col})`;
+                                    completionItem.detail = `$${variable.type} (${variable.line + 1}:${variable.col})`;
+
+                                    if (variableName.startsWith('@')) {
+                                        completionItem.label = variableName.replace("@", "");
+                                    }
+
                                     variableItems.push(completionItem);
                                 }
                             }
+
+                            for (const functionName in result.functions) {
+                                if (result.functions.hasOwnProperty(functionName)) {
+                                    const variable = result.functions[functionName];
+                                    const completionItem = new vscode.CompletionItem(functionName, vscode.CompletionItemKind.Function);
+                                    completionItem.detail = `$${variable.type} (${variable.line + 1}:${variable.col})`;
+
+                                    if (functionName.startsWith('@')) {
+                                        completionItem.label = functionName.replace("@", "");
+                                    }
+
+                                    variableItems.push(completionItem);
+                                }
+                            }
+
+                            for (const structName in result.structs) {
+                                if (result.structs.hasOwnProperty(structName)) {
+                                    const variable = result.structs[structName];
+                                    const completionItem = new vscode.CompletionItem(structName, vscode.CompletionItemKind.Struct);
+                                    completionItem.detail = `${structName} (${variable.line + 1}:${variable.col})`;
+
+                                    if (structName.startsWith('@')) {
+                                        completionItem.label = structName.replace("@", "");
+                                    }
+
+                                    variableItems.push(completionItem);
+                                }
+                            }
+
+                            [
+                                ["int", vscode.CompletionItemKind.Struct, "Root integer type."],
+                                ["float", vscode.CompletionItemKind.Struct, "Root floating point type."],
+                                ["bool", vscode.CompletionItemKind.Struct, "Root boolean type."],
+                                ["str", vscode.CompletionItemKind.Struct, "Root string type."],
+                                ["null", vscode.CompletionItemKind.Struct, "Root null type."],
+                                ["true", vscode.CompletionItemKind.Constant, "True boolean constant."],
+                                ["false", vscode.CompletionItemKind.Constant, "False boolean constant."],
+
+                            ].forEach(e => {
+                                const completionItem = new vscode.CompletionItem(e[0], e[1]);
+                                completionItem.detail = `${e[0]}: ${e[2]}`;
+                                variableItems.push(completionItem);
+                            });
 
                             resolve(variableItems);
                         } catch (e) {
@@ -81,9 +129,8 @@ function activate(context) {
 
                 if (result.errors) {
                     result.errors.forEach((error) => {
-                        const uri = vscode.Uri.file(filePath);
-                        const errorLocation = error.loc.match(/:(\d+):(\d+)-(\d+):(\d+)/);
-                        if (errorLocation) {
+                        if (error.loc) {
+                            const errorLocation = error.loc.match(/:(\d+):(\d+)-(\d+):(\d+)/);
                             const startLine = parseInt(errorLocation[1], 10) + 1;
                             const startCol = parseInt(errorLocation[2], 10);
                             const endLine = parseInt(errorLocation[3], 10) + 1;

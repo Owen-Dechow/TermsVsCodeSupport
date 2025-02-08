@@ -38,7 +38,7 @@
 			"patterns": [
 				{
 					"name": "keyword.termslang",
-					"match": "\\b(return|println|print|let|func|updt|cll|struct|import)\\b"
+					"match": "\\b(return|println|print|let|func|updt|cll|struct|import|of)\\b"
 				},
 				{
 					"name": "keyword.control.termslang",
