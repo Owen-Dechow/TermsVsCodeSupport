@@ -130,7 +130,12 @@ function activate(context) {
                 if (result.errors) {
                     result.errors.forEach((error) => {
                         if (error.loc) {
-                            const errorLocation = error.loc.match(/:(\d+):(\d+)-(\d+):(\d+)/);
+                            const colons = error.loc.split(":").length - 1;
+                            const win = colons === 4;
+                            const split = error.loc.split(":");
+                            const loc = win ? split.slice(2).join(":") : split.slice(1).join(":");
+
+                            const errorLocation = loc.match(/(\d+):(\d+)-(\d+):(\d+)/);
                             const startLine = parseInt(errorLocation[1], 10) + 1;
                             const startCol = parseInt(errorLocation[2], 10);
                             const endLine = parseInt(errorLocation[3], 10) + 1;
@@ -144,7 +149,10 @@ function activate(context) {
                             const diagnostic = new vscode.Diagnostic(range, error.msg, vscode.DiagnosticSeverity.Error);
 
 
-                            const uri = vscode.Uri.file(error.loc.split(":")[0]);
+                            const uri = win
+                                ? vscode.Uri.file(split.slice(0, 2).join(":"))
+                                : vscode.Uri.file(split[0]);
+
                             if (!diagnosticMap.has(uri)) {
                                 diagnosticMap.set(uri, []);
                             }
